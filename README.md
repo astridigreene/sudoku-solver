@@ -1,8 +1,8 @@
-# Tic-Tac-Toe
+# Sudoku Solver
 
-A keyboard-controlled Tic-Tac-Toe game built in Python with turtle graphics. Supports two-player gameplay, win and tie detection, scoreboard tracking, reset controls, and replay flow.
+A C++ Sudoku solver that checks row, column, and box validity, tracks candidate values for open cells, and solves easy 9x9 boards through repeated elimination. Includes runtime measurement and board-state printing during solve steps.
 
-Made with Python, turtle
+Made with C++, STL, chrono
 
 By Astrid Greene astridig@umich.edu
 
@@ -10,86 +10,72 @@ By Astrid Greene astridig@umich.edu
 
 ## Overview
 
-This project is a two-player Tic-Tac-Toe game built using Python’s turtle graphics library. Players use the keyboard to place moves, and the game draws the board and pieces directly on screen while tracking the full game state.
+This project is a C++ Sudoku solver for standard 9x9 boards. The puzzle is stored as an 81-cell grid, and missing values are filled by narrowing down valid candidates based on row, column, and 3x3 box constraints.
 
-It was built to connect input handling, graphics, and game logic in a single program.
+It focuses on elimination and constraint checking rather than full search, so it works well on easy puzzles such as New York Times Easy boards.
 
 ---
 
 ## Features
 
-- Two-player local gameplay  
-- Keyboard controls for both players  
-- Turtle-based board and piece rendering  
-- Win detection across rows, columns, and diagonals  
-- Tie detection  
-- Scoreboard tracking across multiple rounds  
-- Reset and replay controls  
-- Basic error checking for invalid states  
-
----
-
-## Controls
-
-### Player 1
-Uses keys 1 through 9 to place Xs
-
-### Player 2
-Uses keys a through i to place Os
-
-### Other Controls
-- space resets the board  
-- z quits and shows final results  
-- 0 starts a new game  
+- 9x9 Sudoku board stored as an 81-cell vector  
+- Row, column, and 3x3 box validation  
+- Candidate tracking for open cells  
+- Iterative solving through elimination  
+- Helper functions for indexing and board navigation  
+- Board printing during solve steps  
+- Runtime measurement using chrono  
 
 ---
 
 ## How It Works
 
-The program draws the grid using turtle graphics and maps each key press to a specific board position.
+Each cell is mapped to its row, column, and box. For every empty position, the solver checks which values from 1 to 9 are still valid.
 
-Each move updates counters tied to rows, columns, and diagonals. After every move, the game checks whether a player has completed a winning line or if the board is full.
+Those values are stored as candidates. If a cell has only one valid option, it gets filled. The solver also looks for values that are unique within a row or column and fills those when possible.
 
-A scoreboard keeps track of wins and ties across rounds. The game can reset and continue without restarting the program.
+This process repeats until the board is complete or no further progress can be made.
 
 ---
 
 ## Tech Stack
 
-- Python  
-- turtle  
+- C++  
+- STL (vector, unordered_set, unordered_map)  
+- chrono  
+- iostream  
 
 ---
 
 ## File Structure
 
-- tic_tac_toe.py — main game file  
+- sudoku_solver.cpp — main solver and test puzzle  
 
 ---
 
 ## How to Run
 
-1. Make sure Python is installed  
-2. Run: python tic_tac_toe.py  
-   or: python3 tic_tac_toe.py  
+1. Make sure you have a C++ compiler installed  
+2. Compile: g++ -std=c++17 sudoku_solver.cpp -o sudoku_solver  
+3. Run: ./sudoku_solver  
 
 ---
 
 ## Notes
 
-This was an early project focused on combining graphics, input handling, and game logic in one place. The state is tracked using global variables and counters, which keeps things straightforward but makes the code harder to extend.
+This solver is built around constraint checking and elimination. It handles easy boards well but does not attempt deeper search when multiple possibilities remain.
 
-The game works reliably, but the structure could be cleaner if rebuilt with a more formal board representation.
+The implementation prioritizes clarity over optimization. Candidate tracking is done with maps and vectors, which keeps the logic readable but could be improved for efficiency.
 
 ---
 
 ## Future Improvements
 
-- Refactor game state into a structured board (2D array or class-based model)  
-- Prevent invalid moves before they are processed  
-- Separate rendering, input handling, and game logic  
-- Add single-player mode  
-- Improve layout and text rendering  
+- Add recursive backtracking for harder puzzles  
+- Expand elimination logic to better handle 3x3 box constraints  
+- Support reading puzzles from file input instead of hardcoding  
+- Separate solver logic from printing/debug output  
+- Improve performance by reducing repeated candidate recomputation  
 
 ---
 
